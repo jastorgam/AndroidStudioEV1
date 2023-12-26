@@ -12,6 +12,8 @@ class CuentaMesa(var mesa: Int) {
         val add = _items.add(itemMesa)
     }
 
+    // Se agrego este metodo ya que de no eliminar el elemnto anterior
+    // se realizaban mal los calulos, ya que sumaba platos que no existian.
     fun borrarItemPorNombre(nombre: String) {
         val item = _items.find { it.itemMenu.nombre == nombre }
         if (item != null) _items.remove(item)

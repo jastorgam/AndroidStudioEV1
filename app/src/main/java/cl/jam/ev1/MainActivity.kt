@@ -14,25 +14,30 @@ import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
-    var mesa1: CuentaMesa = CuentaMesa(1)
-    var cazuela: ItemMenu = ItemMenu("Cazuela", 10000);
-    var pastel: ItemMenu = ItemMenu("Pastel", 36000);
-    var nf = NumberFormat.getNumberInstance(Locale("es", "CL"))
+    private var mesa1: CuentaMesa = CuentaMesa(1)
+    private var cazuela: ItemMenu = ItemMenu("Cazuela", 10000);
+    private var pastel: ItemMenu = ItemMenu("Pastel", 36000);
+    private var nf = NumberFormat.getNumberInstance(Locale("es", "CL"))
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        configurarSwitch()
+         //Eventos del Pastel
         configurarPastel()
+
+        //Eventos de la cazuela
         configurarCazuela()
 
+        // Eventos del Switch
+        configurarSwitch()
     }
 
     private fun configurarPastel() {
         val cntPastel = findViewById<EditText>(R.id.numPastel)
 
+        // Solo utilizo el evento del text changed
         cntPastel.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
@@ -45,13 +50,13 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(p0: Editable?) {}
-
         })
     }
 
     private fun configurarCazuela() {
         val cntCazuela = findViewById<EditText>(R.id.numCazuela)
 
+        // Solo utilizo el evento del text changed
         cntCazuela.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
@@ -78,14 +83,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Funcion de actualizar los valores por pantalla
+    // cada vez que se realiza algun cambio
     private fun actualizarValores() {
+        // Valor sin propina SP
         val tSP = findViewById<TextView>(R.id.totalSP)
+
+        // Valor de la propina (solo se calcula si esta activo el swith)
         val tP = findViewById<TextView>(R.id.totalP)
-        val tCP = findViewById<TextView>(R.id.totalCP)
+
+        // Valor total con la propina (si es que corresponde)
+        val t = findViewById<TextView>(R.id.total)
 
         tSP.text = "$" + nf.format(mesa1.calcularTotalSinPropina())
         tP.text = "$" + nf.format(mesa1.calcularPropina())
-        tCP.text = "$" + nf.format(mesa1.calcularTotalConPropina())
+        t.text = "$" + nf.format(mesa1.calcularTotalConPropina())
     }
 
 }
